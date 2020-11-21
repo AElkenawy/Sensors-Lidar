@@ -4,6 +4,8 @@
 
 #include "render.h"
 
+// render use viewer heavily which is passed as a reference
+// That way process is streadmlined
 void renderHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
 {
 

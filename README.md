@@ -1,26 +1,34 @@
-# Sensor Fusion Self-Driving Car Course
+# **Lidar Obstacle Detection** 
+## Project goal
 
-<img src="media/ObstacleDetectionFPS.gif" width="700" height="400" />
+Obstacles detection by performing Point Cloud Segmentation and Clustering Obstacles using Lidar sensor and Point Cloud Library (PCL).
 
-### Welcome to the Sensor Fusion course for self-driving cars.
+## Project steps
+Prospective final output
+<img src="media/ObstacleDetectionFPS.gif" width="500" height="380" />
 
-In this course we will be talking about sensor fusion, whch is the process of taking data from multiple sensors and combining it to give us a better understanding of the world around us. we will mostly be focusing on two sensors, lidar, and radar. By the end we will be fusing the data from these two sensors to track multiple cars on the road, estimating their positions and speed.
+#### Completed steps
 
-**Lidar** sensing gives us high resolution data by sending out thousands of laser signals. These lasers bounce off objects, returning to the sensor where we can then determine how far away objects are by timing how long it takes for the signal to return. Also we can tell a little bit about the object that was hit by measuring the intesity of the returned signal. Each laser ray is in the infrared spectrum, and is sent out at many different angles, usually in a 360 degree range. While lidar sensors gives us very high accurate models for the world around us in 3D, they are currently very expensive, upwards of $60,000 for a standard unit.
+1. Highway scence intializing  (Ego-vehicle in green) using _3D Viewer_
+<img src="./media/0_Initial Scene.png" alt="Highway scene">
 
-**Radar** data is typically very sparse and in a limited range, however it can directly tell us how fast an object is moving in a certain direction. This ability makes radars a very pratical sensor for doing things like cruise control where its important to know how fast the car infront of you is traveling. Radar sensors are also very affordable and common now of days in newer cars.
+2. Rendering Lidar rays
+<img src="./media/1_Rays.png" alt="Lidar rays">
 
-**Sensor Fusion** by combing lidar's high resoultion imaging with radar's ability to measure velocity of objects we can get a better understanding of the sorrounding environment than we could using one of the sensors alone.
+3. Rendering resulting Point Cloud
+<img src="./media/2_Cloud.png" alt="Initial cloud">
+
+4. Point Cloud segmentation
+<img src="./media/3_Seg Cloud.png" alt="Segmented cloud">
 
 
-## Installation
-
-### Ubuntu 
+### Basic Build Instructions
+#### Ubuntu 
 
 ```bash
 $> sudo apt install libpcl-dev
 $> cd ~
-$> git clone https://github.com/udacity/SFND_Lidar_Obstacle_Detection.git
+$> git clone https://github.com/AElkenawy/Sensor-Lidar.git
 $> cd SFND_Lidar_Obstacle_Detection
 $> mkdir build && cd build
 $> cmake ..
@@ -28,13 +36,13 @@ $> make
 $> ./environment
 ```
 
-### Windows 
+#### Windows 
 
 http://www.pointclouds.org/downloads/windows.html
 
-### MAC
+#### MAC
 
-#### Install via Homebrew
+##### Install via Homebrew
 1. install [homebrew](https://brew.sh/)
 2. update homebrew 
 	```bash
