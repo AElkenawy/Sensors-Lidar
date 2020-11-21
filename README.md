@@ -5,11 +5,12 @@ Obstacles detection by performing Point Cloud Segmentation and Clustering Obstac
 
 ## Project steps
 Prospective final output
-<img src="media/ObstacleDetectionFPS.gif" width="500" height="380" />
+
+<img src="media/ObstacleDetectionFPS.gif" width="500" height="320" />
 
 #### Completed steps
 
-1. Highway scence intializing  (Ego-vehicle in green) using _3D Viewer_
+1. Highway scence instantiation using _3D Viewer_ (Ego-vehicle in green) 
 <img src="./media/0_Initial Scene.png" alt="Highway scene">
 
 2. Rendering Lidar rays
@@ -18,7 +19,7 @@ Prospective final output
 3. Rendering resulting Point Cloud
 <img src="./media/2_Cloud.png" alt="Initial cloud">
 
-4. Point Cloud segmentation
+4. Point Cloud Segmentation (road and obstacles)
 <img src="./media/3_Seg Cloud.png" alt="Segmented cloud">
 
 
@@ -28,7 +29,7 @@ Prospective final output
 ```bash
 $> sudo apt install libpcl-dev
 $> cd ~
-$> git clone https://github.com/AElkenawy/Sensor-Lidar.git
+$> git clone https://github.com/AElkenawy/Sensors-Lidar.git
 $> cd SFND_Lidar_Obstacle_Detection
 $> mkdir build && cd build
 $> cmake ..
