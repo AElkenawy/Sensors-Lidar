@@ -91,7 +91,7 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
     // Instantiate point process on the heap 
     //ProcessPointClouds<pcl::PointXYZ>* pointProcessor = new ProcessPointCloud<pcl::PointXYZ>()
 
-    // Instantiate point processor on the stack
+    // Instantiate point processor object on the stack
     ProcessPointClouds<pcl::PointXYZ> pointProcessor;
 
     /* Instantiate segmentCloud object by Calling pointProcessor 
@@ -103,9 +103,30 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
     
     // In case of point processor created on the stack pointProcessor.SegmentPlane
     std::pair<pcl::PointCloud<pcl::PointXYZ>::Ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr> segmentCloud = pointProcessor.SegmentPlane(inputCloud, 100, 0.2);
-    renderPointCloud(viewer, segmentCloud.first, "obstCloud", Color(1, 0, 0));
+    //renderPointCloud(viewer, segmentCloud.first, "obstCloud", Color(1, 0, 0));
     renderPointCloud(viewer, segmentCloud.second, "planeCloud", Color(0, 1, 0));
 
+    // TODO:: Euclidean Cluster Extraction
+
+    /* Calling Clustering method of pointProcessor object
+     * on the first cloud "obstCloud" */
+    std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> cloudClusters = pointProcessor.Clustering(segmentCloud.first, 1.0, 3, 30);
+
+    int clusterId = 0;
+    std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};
+
+    // rendering each cluster point cloud
+    for (pcl::PointCloud<pcl::PointXYZ>::Ptr cluster : cloudClusters){
+        std::cout << "cluster size ";
+        pointProcessor.numPoints(cluster);
+
+        /* renderPointCloud is expecting each cluster to
+         have a unique identifier, so clusters are counted
+         with clusterId and appended to obstCloud string
+         eg obstCloud1 */
+        renderPointCloud(viewer, cluster, "obstCloud"+std::to_string(clusterId), colors[clusterId]);
+        ++clusterId; 
+    }
 }
 
 

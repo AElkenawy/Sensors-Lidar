@@ -71,74 +71,95 @@ std::unordered_set<int> Ransac(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int ma
 
 	while (maxIterations--)
 	{
+		/*## Randomly sample subset and fit a plane ##*/
 
-		//Randomly pick two points
+		//Randomly pick three points
 
 		/* underorder_set: set means it won't contain the same index twice
 		 * as elements have to be unique */
 
-		// <2: to insert two points into inliers
+		
 		std::unordered_set<int> inliers;
 
-		while (inliers.size() < 2)
+		// <3: to insert three points into inliers
+		while (inliers.size() < 3)
 			// use % to return values within cloud points range 
 			inliers.insert(rand()%(cloud->points.size()));
 
-		float x1, y1, x2, y2;
+		float x1, y1, z1, x2, y2, z2, x3, y3, z3;
 
 		auto itr = inliers.begin();
 
-		// dereference itr index twice to get the corres. points for line
+		// dereference itr index triple to get the corres. points for plane
 		x1 = cloud->points[*itr].x;
 		y1 = cloud->points[*itr].y;
+		z1 = cloud->points[*itr].z;
 
 		itr ++;
 
 		x2 = cloud->points[*itr].x;
 		y2 = cloud->points[*itr].y;	
+		z2 = cloud->points[*itr].z;
 
-		// Line coefficients 
-		float a, b, c;
+		itr ++;
 
-		a = y1-y2;
-		b = x2-x1;
-		c = x1*y2 - x2*y1;
+		x3 = cloud->points[*itr].x;
+		y3 = cloud->points[*itr].y;	
+		z3 = cloud->points[*itr].z;
 
+		// Plane  coefficients 
+
+		/* take (x1,y1,z1) as a reference to define two vectors v1, v2
+		 * v1 = <x2-x1, y2-y1, z2-z1> , v2 = <x3-x1, y3-y1, z3-z1> */
+
+		// cross product of v1xv2=<i,j,k>, to find normal vector to the plane
+
+		// cross product coefficients
+		float i,j,k;
+
+		i = (y2-y1)*(z3-z1)-(z2-z1)*(y3-y1);
+		j = (z2-z1)*(x3-x1)-(x2-x1)*(z3-z1);
+		k = (x2-x1)*(y3-y1)-(y2-y1)*(x3-x1);
+
+		//  plane coefficients
+		float a, b, c, d;
+
+		a = i;
+		b = j;
+		c = k;
+		d = -(i*x1 + j*y1 + k*z1);
+
+
+		/*## Measure distance between every point and fitted plane ##*/
 
 		// Looping through cloud points 
 		for(int index = 0; index < cloud->points.size(); index++){
 
-			// if this point is one of 2 points of (testing) line, skip it
+			// if this point is one of the 3 points of (testing) plane, skip it
 			if(inliers.count(index)>0)
 				continue;
 
 
 			pcl::PointXYZ point = cloud->points[index];
-			float x3 = point.x;
-			float y3 = point.y;
+			float x4 = point.x;
+			float y4 = point.y;
+			float z4 = point.z;
 
-			// calculate line-point distance
-			float d = fabs(a*x3 + b*y3 + c)/sqrt(a*a+b*b);
 
-			// Add the inlier withen distance tolerance
+			// calculate plane-point distance
+			float d = fabs(a*x4 + b*y4 + c*z4 + d)/sqrt(a*a+b*b+c*c);
+
+			/*## If distance is smaller than threshold count it as inlier ##*/
+			// Add the inlier within distance tolerance
 			if (d <= distanceTol)
 				inliers.insert(index);
-
 		}
 
 
 		// keep line with largest inliers as the best solution
 		if (inliers.size() > inliersResult.size())
 			inliersResult = inliers;
-
 	}
-
-	
-
-	// Randomly sample subset and fit line
-
-	// Measure distance between every point and fitted line
-	// If distance is smaller than threshold count it as inlier
 
 	// Return indicies of inliers from fitted line with most inliers
 	
@@ -152,8 +173,9 @@ int main ()
 	// Create viewer
 	pcl::visualization::PCLVisualizer::Ptr viewer = initScene();
 
-	// Create data
-	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = CreateData();
+	// CreateData() >> changed to CreateData3D()
+	// CreateData3D() simply loads clouds from simpleHighway.pcd
+	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = CreateData3D();
 	
 
 	// TODO: Change the max iteration and distance tolerance arguments for Ransac function
@@ -172,7 +194,7 @@ int main ()
 	}
 
 
-	// Render 2D point cloud with inliers and outliers
+	// Render 3D point cloud with inliers and outliers
 	if(inliers.size())
 	{
 		renderPointCloud(viewer,cloudInliers,"inliers",Color(0,1,0));
