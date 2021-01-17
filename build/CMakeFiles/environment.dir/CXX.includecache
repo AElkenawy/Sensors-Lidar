@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,23 +6,23 @@
 
 #IncludeRegexTransform: 
 
-/home/student/SFND_Lidar_Obstacle_Detection/src/environment.cpp
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/environment.cpp
 sensors/lidar.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/sensors/lidar.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/sensors/lidar.h
 render/render.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/render.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/render.h
 processPointClouds.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/processPointClouds.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/processPointClouds.h
 processPointClouds.cpp
-/home/student/SFND_Lidar_Obstacle_Detection/src/processPointClouds.cpp
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/processPointClouds.cpp
 
-/home/student/SFND_Lidar_Obstacle_Detection/src/processPointClouds.cpp
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/processPointClouds.cpp
 processPointClouds.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/processPointClouds.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/processPointClouds.h
 unordered_set
 -
 
-/home/student/SFND_Lidar_Obstacle_Detection/src/processPointClouds.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/processPointClouds.h
 pcl/io/pcd_io.h
 -
 pcl/common/common.h
@@ -52,21 +52,27 @@ ctime
 chrono
 -
 render/box.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/box.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/box.h
+quiz/cluster/kdtree.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/kdtree.h
 
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/box.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/kdtree.h
+../../render/render.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/render.h
+
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/box.h
 Eigen/Geometry
 -
 
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/render.cpp
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/render.cpp
 render.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/render.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/render.h
 
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/render.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/render.h
 pcl/visualization/pcl_visualizer.h
 -
 box.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/box.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/box.h
 iostream
 -
 vector
@@ -74,9 +80,9 @@ vector
 string
 -
 
-/home/student/SFND_Lidar_Obstacle_Detection/src/sensors/lidar.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/sensors/lidar.h
 ../render/render.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/render.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/render.h
 ctime
 -
 chrono

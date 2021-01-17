@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,35 +6,31 @@
 
 #IncludeRegexTransform: 
 
-/home/student/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/cluster.cpp
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/cluster.cpp
 ../../render/render.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/render.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/render.h
 ../../render/box.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/box.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/box.h
 chrono
 -
 string
 -
 kdtree.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/kdtree.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/kdtree.h
 
-/home/student/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/kdtree.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/kdtree.h
 ../../render/render.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/render.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/render.h
 
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/box.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/box.h
 Eigen/Geometry
 -
 
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/render.cpp
-render.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/render.h
-
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/render.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/render.h
 pcl/visualization/pcl_visualizer.h
 -
 box.h
-/home/student/SFND_Lidar_Obstacle_Detection/src/render/box.h
+/home/workspace/SFND_Lidar_Obstacle_Detection/src/render/box.h
 iostream
 -
 vector
