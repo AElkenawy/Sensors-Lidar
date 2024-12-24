@@ -218,7 +218,7 @@ int main (int argc, char** argv)
   pcl::visualization::PCLVisualizer::Ptr viewer (new pcl::visualization::PCLVisualizer ("3D Viewer"));
   CameraAngle setAngle = XY;
 
-  // Intensity point processor is created on the heap
+  // (intensity) point processor object is created on the heap
   ProcessPointClouds<pcl::PointXYZI>* pointProcessorI = new ProcessPointClouds<pcl::PointXYZI>();
   // Streaming .pcd files 
   std::vector<boost::filesystem::path> stream = pointProcessorI->streamPcd("../src/sensors/data/pcd/data_1");

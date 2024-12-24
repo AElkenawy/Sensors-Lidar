@@ -30,7 +30,8 @@ void ProcessPointClouds<PointT>::numPoints(typename pcl::PointCloud<PointT>::Ptr
    pcl::PointCloud<PointT> is a type, not a value (cloud) */
 // typename will be always used with extension ::Ptr of Pointer 
 
-//*################ VOXEL FILTERING FUNCTION ################*//
+//*################ VOXEL AND FILTERING FUNCTION (FilterCloud Method of ProcessPointClouds class) ################*//
+// Downsample the input cloud and then removes the roof area
 template<typename PointT>
 typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(typename pcl::PointCloud<PointT>::Ptr cloud, float filterRes, Eigen::Vector4f minPoint, Eigen::Vector4f maxPoint)
 {
@@ -40,19 +41,24 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
 
   // TODO:: Fill in the function to do voxel grid point reduction and region based filtering
 
-  // Voxel grid filter
+  // Voxel grid class template filter
   pcl::VoxelGrid<PointT> vg;
-  typename pcl::PointCloud<PointT>::Ptr cloudFiltered (new pcl::PointCloud<PointT>);
-  vg.setInputCloud (cloud);
+  typename pcl::PointCloud<PointT>::Ptr cloudFiltered (new pcl::PointCloud<PointT>); //memory allocation of new variable cloudFiltered
+  vg.setInputCloud (cloud); // Public Member Function inherited from pcl::PCLBase <PointT> 
   vg.setLeafSize (filterRes, filterRes, filterRes);
   
   // Pass pointer to apply changes to cloudFiltered
-  vg.filter(*cloudFiltered);
+  vg.filter(*cloudFiltered); //Calls the filtering method and returns the filtered dataset in output?
 
   typename pcl::PointCloud<PointT>::Ptr cloudRegion (new pcl::PointCloud<PointT>);
 
-  // true: manipulate points inside the CropBox 
-  pcl::CropBox<PointT> region(true);
+  // CropBox is a filter that allows the user to filter all the data inside of a given box. 
+  // allocation of cloudFilter region
+  // pcl::CropBox< PointT>::CropBox  (bool extract_removed_indices = false)   
+  // extract_removed_indices  Set to true if you want to be able to extract the indices of points being removed
+  // true is the class constructor argument, used here to manipulate points inside the CropBox 
+  pcl::CropBox<PointT> region(true); 
+
   // ROI points
   region.setMin(minPoint);
   region.setMax(maxPoint);
@@ -76,12 +82,14 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
   // indices inside roof's box
   roof.filter(indices);
 
+  //pcl::PointIndices::Ptr struct
   pcl::PointIndices::Ptr inliers {new pcl::PointIndices};
 
   // Store roof indices inside inliers 
   for(int point : indices)
     inliers->indices.push_back(point);
 
+  // pcl::ExtractIndices< PointT > Class Template
   // Similar to segmentation SeparateClouds function
   pcl::ExtractIndices<PointT> extract;
 
@@ -89,6 +97,7 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
   extract.setInputCloud (cloudRegion);
   extract.setIndices (inliers);
   
+  // Set whether the regular conditions for points filtering should apply, or the inverted conditions. 
   // setNegative(true): inverted behavior of extraction to remove inliers
   extract.setNegative (true);
   extract.filter(*cloudRegion);
@@ -142,7 +151,7 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
   extract.setInputCloud (cloud);
   extract.setIndices (inliers);
   
-  // setNegative(true): inverted behavior of extraction to remove inliers/road/plane points
+  // setNegative(true): inverted behavior of extraction to remove inliers/road plane points
   extract.setNegative (true);
 
   // obstCloud is a pointer, dereference it when passing to filter
@@ -157,7 +166,7 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
 //*################ RANSAC SEGMENTATION FUNCTION ################*//
 /* SegmentPlane Function: fits a plane to (road) points and uses distance
    tolerance to decide which points (inliers) belong to that plane 
- * SegmentPlane returns a std::pair (using segResult) 
+ * SegmentPlane returns a std::pair (stored in segResult variable) 
  * pair object holds pair of PCs: obstacle & road */
 template<typename PointT>
 std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::SegmentPlane(typename pcl::PointCloud<PointT>::Ptr cloud, int maxIterations, float distanceThreshold)
@@ -255,7 +264,7 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
     j = (z2-z1)*(x3-x1)-(x2-x1)*(z3-z1);
     k = (x2-x1)*(y3-y1)-(y2-y1)*(x3-x1);
 
-    // plane coefficients
+    // plane (RANSAC) coefficients
     float A, B, C, D;
 
     A = i;
